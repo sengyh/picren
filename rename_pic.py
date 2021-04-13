@@ -3,6 +3,7 @@ import os
 import subprocess
 import re
 import time
+import json
 
 import pandas as pd
 #import geopandas as gpd
@@ -11,7 +12,10 @@ from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 from geopy.exc import GeocoderTimedOut
 
-def rename_pic(pic):
+from setup_db import Location
+import sqlalchemy
+
+def rename_pic(pic, session):
   # use subprocess or another way to parse exif data
   print(pic)
   dtorg = subprocess.Popen(['exiftool', '-datetimeoriginal', '-n', pic],
@@ -30,12 +34,12 @@ def rename_pic(pic):
 
   geocode_on = True
   if geocode_on:
-    reverse_geocode(pic)
+    reverse_geocode(pic, session)
   
 
   return
 
-def reverse_geocode(pic):
+def reverse_geocode(pic, session):
   location_str = ''
   lon_str = subprocess.Popen(['exiftool', '-gpslongitude', '-n', pic], stdout=subprocess.PIPE).communicate()[0].decode('ascii')
   lat_str = subprocess.Popen(['exiftool', '-gpslatitude', '-n', pic], stdout=subprocess.PIPE).communicate()[0].decode('ascii')
@@ -45,16 +49,28 @@ def reverse_geocode(pic):
     lat = round(float(re.sub('[^0-9.-]','', lat_str)),4)
     coords = (lat, lon)
     print(coords)
-    locator = Nominatim(user_agent="myGeocoder")
-    location = locator.reverse(coords, language='en')
-    print(location)
-    location_str = location
 
+
+    # query db to see if it exists
+    db_addr = session.query(Location).filter(Location.longitude==lon, Location.latitude==lat).first()
+    if db_addr is None:
+      print('calling nominatim and creating new entry...')
+      locator = Nominatim(user_agent="myGeocoder")
+      location = locator.reverse(coords, language='en')
+      print(location.raw)
+      address_str = json.dumps(location.raw['address'])
+      print (address_str, type(address_str))
+      new_location_entry = Location(longitude=lon, latitude=lat, address=address_str)
+      session.add(new_location_entry)
+      session.commit()
+      time.sleep(1)
+    else: 
+      print('entry exists')
+      print(db_addr.address)
+
+    print('\n')
     # want to collect landmarks: tourism, places...
     # only collect city and country (if city non existent pick province)
     # tokyo has exception
-    print(location.raw['address'].get('tourism'))
-    print(location.raw)
-    time.sleep(2)
-
+    #print(location.raw['address'].get('tourism'))
   return location_str
