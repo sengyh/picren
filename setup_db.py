@@ -2,7 +2,7 @@ from sqlalchemy.orm.session import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Table, Column, Float, String
 
-engine = create_engine('sqlite:///location_cache.db', echo = True)
+engine = create_engine('sqlite:///location_cache.db')#, echo = True)
 Base = declarative_base()
 
 class Location(Base):
