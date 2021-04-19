@@ -6,35 +6,38 @@ import time
 import json
 
 from search_location import get_address, reverse_geocode, process_address
+from transplant_pic import transplant_pic
 
 
-def rename_pic(pic, session):
+def rename_pic(pic, session, destination):
     # use subprocess or another way to parse exif data
     #forbidden_characters = '"*/:<>?\|'
     #unicode_characters = '”⁎∕꞉‹›︖＼⏐'
     print(pic)
-    date_time_str = get_time(pic, session)
+    date_time_str = get_date_time(pic, session)
+    print(date_time_str + '\n')
 
     geocode_on = True
-    address = {}
+    final_address_list = []
     if geocode_on:
         addr_str = get_address(pic, session)
         if addr_str != '':
             address = json.loads(addr_str)
             # hiearchy: [place, village, suburb, city, state, country]
-            final_addr_list = process_address(address)
-            print(final_addr_list, '\n')
+            final_address_list = process_address(address)
+            print(final_address_list, '\n')
         else:
             print("sorry, you don't belong anywhere :(" + '\n')
+
+    transplant_pic(pic, date_time_str, final_address_list, destination)
     return
 
 
-def get_time(pic, session):
+def get_date_time(pic, session):
+    new_pic_name = ''
     dtorg = subprocess.Popen(['exiftool', '-datetimeoriginal', '-n', pic],
                              stdout=subprocess.PIPE).communicate()[0].decode('ascii')
-    # print(dtorg)
     if dtorg:
-        print(dtorg.rstrip("\n"))
         date_time_arr = dtorg.rstrip("\n").split(': ')[1].split(' ')
         date = date_time_arr[0].replace(':', '-')
         time = date_time_arr[1].replace(':', '꞉')
@@ -44,12 +47,10 @@ def get_time(pic, session):
             subsec = subsec_org.rstrip("\n").split(': ')[1]
             time = time + '꞉' + subsec
         date_time_str = date + '_' + time
-        print(date_time_str)
+        new_pic_name = date_time_str
     else:
-        print('no create date found')
-    # if no subsec just do
-    return ''
-
-
-def process_date_time():
-    return
+        # print('no create date found')
+        # dtacc = subprocess.Popen(['exiftool', '-modifydate', '-n', pic],
+        # stdout=subprocess.PIPE).communicate()[0].decode('ascii')
+        new_pic_name = pic.split('/')[-1]
+    return new_pic_name

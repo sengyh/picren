@@ -13,8 +13,9 @@ from rename_pic import rename_pic
 
 def main():
     args = sys.argv
+    dest_dir = '/Picren'
     # handle passed in files
-    traverse_dirs(args)
+    traverse_dirs(args, dest_dir)
     # handle video formats
 
     # handle duplicates
