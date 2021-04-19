@@ -16,7 +16,7 @@ def transplant_pic(pic, new_name_str, address_list, destination):
     new_pic_name = new_name_str
     # no location, just put in folder and return
     if address_list == []:
-        dest_path += '_No Location_'
+        dest_path += '/_No Location_'
         if dt_list == []:
             dest_path += '/_No Date_'
         else:
