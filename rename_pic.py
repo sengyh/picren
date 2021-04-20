@@ -13,9 +13,9 @@ def rename_pic(pic, session, destination):
     # use subprocess or another way to parse exif data
     #forbidden_characters = '"*/:<>?\|'
     #unicode_characters = '”⁎∕꞉‹›︖＼⏐'
-    print(pic)
+    # print(pic)
     date_time_str = get_date_time(pic, session)
-    print(date_time_str + '\n')
+    #print(date_time_str + '\n')
 
     geocode_on = True
     final_address_list = []
@@ -25,9 +25,9 @@ def rename_pic(pic, session, destination):
             address = json.loads(addr_str)
             # hiearchy: [place, village, suburb, city, state, country]
             final_address_list = process_address(address)
-            print(final_address_list, '\n')
-        else:
-            print("sorry, you don't belong anywhere :(" + '\n')
+            #print(final_address_list, '\n')
+        # else:
+            #print("sorry, you don't belong anywhere :(" + '\n')
 
     transplant_pic(pic, date_time_str, final_address_list, destination)
     return
@@ -52,5 +52,6 @@ def get_date_time(pic, session):
         # print('no create date found')
         # dtacc = subprocess.Popen(['exiftool', '-modifydate', '-n', pic],
         # stdout=subprocess.PIPE).communicate()[0].decode('ascii')
-        new_pic_name = pic.split('/')[-1]
+        only_pic_name = pic.split('/')[-1]
+        new_pic_name = only_pic_name.split('.')[0]
     return new_pic_name

@@ -55,8 +55,8 @@ def transplant_pic(pic, new_name_str, address_list, destination):
             if village != '':
                 new_pic_name += '_' + village
 
-    print(dest_path)
-    print(new_pic_name)
+    # print(dest_path)
+    # print(new_pic_name)
     # get home directory and combine with path
     full_path = str(Path.home()) + dest_path
     Path(full_path).mkdir(parents=True, exist_ok=True)

@@ -24,12 +24,12 @@ def get_address(pic, session):
         lon = round(float(re.sub('[^0-9.-]', '', lon_str)), 4)
         lat = round(float(re.sub('[^0-9.-]', '', lat_str)), 4)
         coords = (lat, lon)
-        print(coords)
+        # print(coords)
         # query db to see if entry already exists
         db_addr = session.query(Location).filter(
             Location.longitude == lon, Location.latitude == lat).first()
         if db_addr is None:
-            print('calling nominatim and creating new entry...')
+            #print('calling nominatim and creating new entry...')
             locator = Nominatim(user_agent="picren")
             # in case geocoder times out
             address_str = reverse_geocode(
@@ -43,7 +43,7 @@ def get_address(pic, session):
             time.sleep(1)
         else:
             location_str = db_addr.address
-            print('entry exists')
+            #print('entry exists')
     #print(location_str + '\n')
     return location_str
 
