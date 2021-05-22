@@ -6,7 +6,7 @@ import re
 
 def transplant_pic(pic, new_name_str, address_list, destination):
     #Path(destination).mkdir(parents=True, exist_ok=True)
-    pic_extension = pic.split('.')[-1]
+    pic_extension = str(pic).split('.')[-1]
 
     dt_list = []
     if re.match('^\d{4}-\d{2}-\d{2}_\d{2}꞉\d{2}꞉\d{2}', new_name_str):
@@ -59,10 +59,14 @@ def transplant_pic(pic, new_name_str, address_list, destination):
     # print(new_pic_name)
     # get home directory and combine with path
     full_path = str(Path.home()) + dest_path
+    # if (dest_path == '/Picren'):
+    #    full_path = str(Path.home()) + dest_path
+    print(full_path)
     Path(full_path).mkdir(parents=True, exist_ok=True)
-    src = pic
+    src = str(pic)
     dst = full_path + '/' + new_pic_name + '.' + pic_extension
     shutil.move(src, dst)
+    print('moved pic from' + ' ' + src + 'to ' + dst)
     return
 
 
