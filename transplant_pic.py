@@ -58,7 +58,8 @@ def transplant_pic(pic, new_name_str, address_list, destination):
     # print(dest_path)
     # print(new_pic_name)
     # get home directory and combine with path
-    full_path = str(Path.home()) + dest_path
+    #full_path = str(Path.home()) + dest_path
+    full_path = dest_path
     # if (dest_path == '/Picren'):
     #    full_path = str(Path.home()) + dest_path
     print(full_path)

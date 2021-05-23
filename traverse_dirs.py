@@ -27,9 +27,6 @@ def traverse_dirs(arg, dest_dir):
         print(arg)
         file_path_str = str(arg)
         if not file_path_str.lower().endswith(tuple(photo_exts)):
-            click.echo("Conversion failed. Selected file is not a photo. ")
+            click.echo("Conversion failed. Selected file is not a photo.")
         else:
             rename_pic(arg, session, dest_dir)
-
-    # if not arg.lower().endswith(tuple(photo_exts)):
-    #    continue
