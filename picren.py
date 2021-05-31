@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 import sys
-import os
-import subprocess
+import glob
 import click
-from pathlib import Path, PosixPath
 
+from pathlib import Path, PosixPath
 from traverse_dirs import traverse_dirs
 from rename_pic import rename_pic
 
@@ -23,53 +22,59 @@ from rename_pic import rename_pic
 @click.argument('dest', nargs=1, default=Path.home(), type=click.Path(exists=True, file_okay=False, dir_okay=True, path_type=Path))
 def picren(source, dest):
     """
-    Picren helps you rename and reorganise your photos by date and location.
-    Simply provide a valid folder or photo and a valid folder to create your picren library.
-
-    The current (and default) method of organisation is to move photos to the destination folder and placed in a hierarchical order based on the address from the top down. 
-
-    The default photos will be renamed to the date, time and location (if present) when and where it was taken.
+    Reorganises and renames your photos\n
+    Folder Structure:\n
+    Picren\n
+    ⎿ __ Country\n
+    \t ⎿ __ State\n
+    \t      ⎿ __ Suburb\n
+    \t\t   ⎿ __ date_time_village.JPG\n
+    \t ⎿ __ City\n
+    \t      ⎿ __ date_time_suburb.JPG\n
+    ⎿ __ __No Location__\n
+    \t   ⎿ __ Year\n
+    \t        ⎿ __ date_time.JPG\n
+    \t   ⎿ __ __No Date__\n
+    \t\t  ⎿ __ original_name.JPG\n
     """
-    args = sys.argv
-    print(args)
     dest_path = str(dest / 'Picren')
-    print(dest_path)
+    source_path = str(source)
+    num_pics = scanDir(source_path)
 
-    #source_path = clean_source()
-    source_path = source
-
-    # dest_dir = click.prompt(
-    #    'Please enter a valid destination path', default='/Picren')
-    # print(dest_path)
+    click.confirm("Confirm migration to " +
+                  click.style(dest_path, fg='green', underline=True) + "?", abort=True)
+    print('boop, magic wand tapped')
 
     # handle passed in folder
-    traverse_dirs(source_path, dest_path)
+    traverse_dirs(source_path, dest_path, num_pics)
 
     return 0
 
 
-def clean_source():
-    cleaned_source = None
-    while cleaned_source is None:
-        source = click.prompt(
-            "Please enter the folder or photo that you'd like to convert", type=str
-        )
-        p = Path(source)
-        path_list = source.split('/')
-        if (path_list[0] == '~'):
-            p = Path.home()
-            path_list.pop(0)
-            for pfr in path_list:
-                p = p / pfr
-        else:
-            p = Path.cwd() / source
-        try:
-            p = p.resolve(strict=True)
-            cleaned_source = p
-        except FileNotFoundError:
-            click.echo("File/Folder does not exist. Please try again.")
-            pass
-    return cleaned_source
+def scanDir(source_path):
+    photo_exts = ['.heic', '.heif', '.jpg', '.jpeg', '.png', '.tiff', '.raw']
+    numPics = 0
+    totalSize = 0
+    for filepath in glob.iglob(source_path + '**/**', recursive=True):
+        if Path(filepath).is_file and filepath.lower().endswith(tuple(photo_exts)):
+            numPics += 1
+            totalSize += Path(filepath).stat().st_size
+            # print(filepath.split('/')[-1])
+    totalReformatted = convert_bytes(totalSize)
+    click.echo(click.style(str(numPics), fg='green') +
+               " photos (" +
+               click.style(str(totalReformatted), fg='cyan') +
+               ") found in " + click.style
+               (source_path, fg='yellow', underline=True) + " under all subfolders.")
+    return numPics
+
+
+def convert_bytes(num):
+    step_unit = 1000.0  # 1024 if you're anal
+    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+        if num < step_unit:
+            return "%3.1f %s" % (num, x)
+        num /= step_unit
 
 # if __name__ == "__main__":
 #   picren()

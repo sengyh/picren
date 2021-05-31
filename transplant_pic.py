@@ -55,19 +55,14 @@ def transplant_pic(pic, new_name_str, address_list, destination):
             if village != '':
                 new_pic_name += '_' + village
 
-    # print(dest_path)
-    # print(new_pic_name)
     # get home directory and combine with path
     #full_path = str(Path.home()) + dest_path
     full_path = dest_path
-    # if (dest_path == '/Picren'):
-    #    full_path = str(Path.home()) + dest_path
-    print(full_path)
     Path(full_path).mkdir(parents=True, exist_ok=True)
     src = str(pic)
     dst = full_path + '/' + new_pic_name + '.' + pic_extension
-    shutil.move(src, dst)
-    print('moved pic from' + ' ' + src + 'to ' + dst)
+    #shutil.move(src, dst)
+    print("moved to " + dst)
     return
 
 

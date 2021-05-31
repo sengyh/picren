@@ -5,7 +5,7 @@ import subprocess
 import sqlalchemy
 
 #import geopandas as gpd
-import pandas as pd
+#import pandas as pd
 import geopy
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
@@ -54,7 +54,7 @@ def reverse_geocode(coords, locator, attempt, max_attempts):
     # more exceptions, coords are wrong. too many calls to nominatim
     try:
         location = locator.reverse(coords, language='en')
-        print(location.raw)
+        # print(location.raw)
         address_str = json.dumps(location.raw['address'])
         return address_str
     except GeocoderTimedOut:
