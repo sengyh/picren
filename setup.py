@@ -5,9 +5,10 @@ setup(
     version='1.0.0',
     author='sengyh',
     author_email='sengyh.dev@gmail.com',
+    packages=find_packages(),
+    include_package_data=True,
     pymodules='picren',
     install_requires=[
-        'Python3',
         'pathlib',
         'Click',
         'sqlalchemy',
@@ -15,7 +16,7 @@ setup(
         'geopy',
     ],
     entry_points={
-        'console_scripts': ['picren= picren:picren',
+        'console_scripts': ['picren= src.scripts.picren:picren',
                             ],
     },
 )
