@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
+import subprocess
 import sys
 import glob
+import os 
 import click
 
 from pathlib import Path, PosixPath
 from src.traverse_dirs import traverse_dirs
 from src.rename_pic import rename_pic
+import src.create_db
 
 # make setup script
 # attach as a command line application
@@ -37,6 +40,15 @@ def picren(source, dest):
     \t   ⎿ __ __No Date__\n
     \t\t  ⎿ __ original_name.JPG\n
     """
+    # check for local file /.picren
+    # error, doesnt work if files dont already exist
+    # use a shell setup script instead
+    app_data_path = Path.home() / '.picren'
+    print(app_data_path)
+    if os.path.isdir(app_data_path) is False:
+        print('running script...')
+        os.system("python3 src/create_db.py")
+
     dest_path = str(dest / 'Picren')
     source_path = str(source)
     num_pics = scanDir(source_path)

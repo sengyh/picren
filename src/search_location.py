@@ -29,7 +29,7 @@ def get_address(pic, session):
         db_addr = session.query(Location).filter(
             Location.longitude == lon, Location.latitude == lat).first()
         if db_addr is None:
-            #print('calling nominatim and creating new entry...')
+            print('calling nominatim and creating new entry...')
             locator = Nominatim(user_agent="picren")
             # in case geocoder times out
             address_str = reverse_geocode(

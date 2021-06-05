@@ -11,9 +11,9 @@ from alive_progress import alive_bar
 
 def traverse_dirs(arg, dest_dir, num_pics):
     # change this when packaging shit is figured out
-    p = Path.home() / 'projects' / 'picren' / 'location_cache.db'
-    p_str = 'sqlite:///' + str(p)
-    engine = create_engine(p_str)
+    app_data_path = Path.home() / '.picren'
+    adp_str = 'sqlite:///' + str(app_data_path) + '/location_cache.db'
+    engine = create_engine(adp_str)
     Session = sessionmaker(bind=engine)
     session = Session()
 
