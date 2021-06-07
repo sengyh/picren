@@ -4,6 +4,8 @@ import sys
 import glob
 import os 
 import click
+import sqlalchemy
+import geopy
 
 from pathlib import Path, PosixPath
 from src.traverse_dirs import traverse_dirs
@@ -87,5 +89,5 @@ def convert_bytes(num):
             return "%3.1f %s" % (num, x)
         num /= step_unit
 
-# if __name__ == "__main__":
-#   picren()
+if __name__ == "__main__":
+    picren()
