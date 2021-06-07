@@ -39,7 +39,7 @@ Simply provide a valid folder or photo that you'd like to convert and a valid fo
  >>>> original_name.JPG
 
 ### Installation Guide
-* Download the latest release .zip file 
++ Download the latest release .zip file
 + Right click on the picren folder, go down to 'Services' and select 'New terminal at Folder' 
 + On your terminal window and type `mv picren /usr/local/bin`
 + Now type in `picren` and voila, you can now use the app!
