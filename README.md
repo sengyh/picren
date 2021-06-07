@@ -4,8 +4,8 @@ Simply provide a valid folder or photo that you'd like to convert and a valid fo
 
 ### Current (and default) functionality 
   **Organisation**:
-  * Photos are moved to the destination folder and placed in a hierarchical order based on the address  
-  from the top down (country -> state/city)
+  * Photos are moved to the destination folder and placed in a hierarchical order based on the address from the top down.
+  * Full structure provided below
     
   **Naming**:
   * Photos will be renamed (in this order) to the date, time and location (if present) 
@@ -14,7 +14,6 @@ Simply provide a valid folder or photo that you'd like to convert and a valid fo
   **Picren Library Directory Structure**: 
   
   > Picren
-
 
  >> Country
 
@@ -37,6 +36,13 @@ Simply provide a valid folder or photo that you'd like to convert and a valid fo
  >>> __No Date__
 
  >>>> original_name.JPG
+
+### To use picren, you'll need
++ Exiftool
+   > [Download link for macOS](https://exiftool.org/ExifTool-12.26.dmg)
+ 
+   > If you're already using homebrew, simply install exiftool with `brew install exiftool`
++ A stable internet connection
 
 ### Installation Guide
 + Download the latest release .zip file
