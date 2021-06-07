@@ -43,7 +43,7 @@ def get_address(pic, session):
             time.sleep(1)
         else:
             location_str = db_addr.address
-            #print('entry exists')
+            #print('entry exists') 
     #print(location_str + '\n')
     return location_str
 
