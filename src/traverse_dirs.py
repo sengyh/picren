@@ -35,9 +35,9 @@ def traverse_dirs(arg, dest_dir, num_pics):
                         bar()
                         time.sleep(0.001)
                         rename_pic(os.path.join(root, file), session, dest_dir)
-    print(pic_count)
+    #print(pic_count)
     if (os.path.isfile(arg)):
-        print(arg)
+        #print(arg)
         file_path_str = str(arg)
         if not file_path_str.lower().endswith(tuple(photo_exts)):
             click.echo(

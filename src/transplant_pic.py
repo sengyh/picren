@@ -61,8 +61,8 @@ def transplant_pic(pic, new_name_str, address_list, destination):
     Path(full_path).mkdir(parents=True, exist_ok=True)
     src = str(pic)
     dst = full_path + '/' + new_pic_name + '.' + pic_extension
-    #shutil.move(src, dst)
-    print("moved to " + dst)
+    shutil.move(src, dst)
+    #print("moved to " + dst)
     return
 
 

@@ -46,9 +46,9 @@ def picren(source, dest):
     # error, doesnt work if files dont already exist
     # use a shell setup script instead
     app_data_path = Path.home() / '.picren'
-    print(app_data_path)
+    #print(app_data_path)
     if os.path.isdir(app_data_path) is False:
-        print('running script...')
+        #print('running script...')
         os.system("python3 src/create_db.py")
 
     dest_path = str(dest / 'Picren')
@@ -57,7 +57,7 @@ def picren(source, dest):
 
     click.confirm("Confirm migration to " +
                   click.style(dest_path, fg='green', underline=True) + "?", abort=True)
-    print('boop, magic wand tapped')
+    #print('boop, magic wand tapped')
 
     # handle passed in folder
     traverse_dirs(source_path, dest_path, num_pics)
